@@ -1,0 +1,84 @@
+<h2 style="text-align:center;">Search Players by Institute</h2>
+
+<div style="text-align:center; margin-bottom: 20px;">
+  <input type="text" id="instituteNameInput" placeholder="Enter Institute Name"
+         style="padding:10px; width:250px; border-radius:8px; border:1px solid #ccc;">
+  <button onclick="fetchPlayersByInstitute()" 
+          style="padding:10px 20px; border:none; background:#007bff; color:white; border-radius:8px;">
+    Search
+  </button>
+</div>
+
+<div id="playerResults" style="margin:20px auto; width:80%;"></div>
+
+<script>
+async function fetchPlayersByInstitute() {
+  const instituteName = document.getElementById('instituteNameInput').value.trim();
+  const resultDiv = document.getElementById('playerResults');
+
+  if (!instituteName) {
+    alert("Please enter an institute name!");
+    return;
+  }
+
+  try {
+    const response = await fetch(`http://localhost:8080/api/teams/institute/${encodeURIComponent(instituteName)}`);
+    
+    if (!response.ok) {
+      throw new Error("Institute not found or no teams available!");
+    }
+
+    const teams = await response.json(); // Expecting an array like your sample JSON
+
+    if (!Array.isArray(teams) || teams.length === 0) {
+      resultDiv.innerHTML = "<p style='color:red;text-align:center;'>No teams found for this institute.</p>";
+      return;
+    }
+
+    let html = `
+      <h3 style="text-align:center;">Results for "${instituteName}"</h3>
+      <table border="1" cellspacing="0" cellpadding="8" 
+             style="width:100%; border-collapse:collapse; text-align:center; border-radius:10px;">
+        <thead style="background-color:#007bff; color:white;">
+          <tr>
+            <th>Team Name</th>
+            <th>Captain</th>
+            <th>Vice Captain</th>
+            <th>Player Name</th>
+            <th>Reg. No</th>
+            <th>Mobile</th>
+            <th>Branch</th>
+            <th>Year</th>
+            <th>Section</th>
+          </tr>
+        </thead>
+        <tbody>
+    `;
+
+    teams.forEach(team => {
+      team.players.forEach(player => {
+        html += `
+          <tr>
+            <td>${team.teamName}</td>
+            <td>${team.captain}</td>
+            <td>${team.viceCaptain}</td>
+            <td>${player.name}</td>
+            <td>${player.registrationNumber}</td>
+            <td>${player.mobileNumber || '-'}</td>
+            <td>${player.branch}</td>
+            <td>${player.year}</td>
+            <td>${player.section}</td>
+          </tr>
+        `;
+      });
+    });
+
+    html += "</tbody></table>";
+    resultDiv.innerHTML = html;
+
+  } catch (err) {
+    console.error(err);
+    resultDiv.innerHTML = `<p style='color:red;text-align:center;'>❌ ${err.message}</p>`;
+  }
+}
+</script>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏏 Team Registration Form</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #007bff, #00c6ff);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 850px;
+            padding: 30px 40px;
+            margin: 30px 0;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            text-align: center;
+            color: #007bff;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        h3 {
+            margin-top: 30px;
+            color: #0056b3;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        .player-row {
+            background: #f9f9f9;
+            border-left: 4px solid #007bff;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .player-row:hover {
+            transform: scale(1.01);
+        }
+
+        .player-row strong {
+            color: #007bff;
+        }
+
+        .players-container {
+            margin-top: 20px;
+            max-height: 450px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        /* Scrollbar styling */
+        .players-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .players-container::-webkit-scrollbar-thumb {
+            background: #007bff;
+            border-radius: 3px;
+        }
+
+        .btn {
+            background: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            margin: 8px 5px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background: #b02a37;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 15px;
+            color: #666;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🏏 Team Registration Form</h2>
+        <p style="text-align:center;color:#666;">Enter team and player details below</p>
+
+        <!-- Team Info -->
+        <div>
+            <label>Team Name:</label>
+            <input type="text" id="teamName" required>
+
+            <label>Institute Name:</label>
+            <input type="text" id="instituteName" required>
+
+            <label>Captain:</label>
+            <input type="text" id="captain" required>
+
+            <label>Vice Captain:</label>
+            <input type="text" id="viceCaptain">
+
+            <label>Branch:</label>
+            <input type="text" id="branch">
+
+            <label>Year:</label>
+            <input type="number" id="year" min="1" max="4">
+        </div>
+
+        <h3>Players (13–15)</h3>
+        <div class="players-container" id="playersContainer"></div>
+
+        <div style="text-align:center;">
+            <button class="btn" type="button" onclick="addPlayer()">+ Add Player</button>
+            <button class="btn btn-danger" type="button" onclick="removePlayer()">− Remove Player</button>
+        </div>
+
+        <div style="text-align:center;">
+            <button class="btn" style="background:#28a745;" type="button" onclick="submitTeam()">✅ Submit Team</button>
+        </div>
+
+        <div class="footer">Designed with ❤️ by Kanhaiya</div>
+    </div>
+
+    <script>
+        const maxPlayers = 15;
+        const minPlayers = 13;
+        const backendUrl = "http://localhost:8080/api/teams";
+
+        function addPlayer() {
+            const container = document.getElementById('playersContainer');
+            if (container.children.length >= maxPlayers)
+                return alert('Maximum 15 players allowed.');
+
+            const index = container.children.length + 1;
+            const div = document.createElement('div');
+            div.className = 'player-row';
+            div.innerHTML = `
+                <strong>Player ${index}</strong><br>
+                <label>Name:</label>
+                <input type="text" class="player-name" required>
+                <label>Registration Number:</label>
+                <input type="text" class="player-reg" required>
+                <label>Mobile Number:</label>
+                <input type="text" class="player-mobile">
+                <label>Branch:</label>
+                <input type="text" class="player-branch">
+                <label>Year:</label>
+                <input type="number" class="player-year">
+                <label>Section:</label>
+                <input type="text" class="player-section">
+            `;
+            container.appendChild(div);
+        }
+
+        function removePlayer() {
+            const container = document.getElementById('playersContainer');
+            if (container.children.length > 0) {
+                container.removeChild(container.lastChild);
+            }
+        }
+
+        function submitTeam() {
+            const teamName = document.getElementById('teamName').value.trim();
+            const instituteName = document.getElementById('instituteName').value.trim();
+            const captain = document.getElementById('captain').value.trim();
+            const viceCaptain = document.getElementById('viceCaptain').value.trim();
+            const branch = document.getElementById('branch').value.trim();
+            const year = parseInt(document.getElementById('year').value);
+
+            if (!teamName || !instituteName || !captain)
+                return alert("Please fill in all required fields!");
+
+            const container = document.getElementById('playersContainer');
+            if (container.children.length < minPlayers)
+                return alert('Minimum 13 players required.');
+
+            const players = Array.from(container.children).map(div => ({
+                name: div.querySelector('.player-name').value.trim(),
+                registrationNumber: div.querySelector('.player-reg').value.trim(),
+                mobileNumber: div.querySelector('.player-mobile').value.trim(),
+                branch: div.querySelector('.player-branch').value.trim(),
+                year: parseInt(div.querySelector('.player-year').value),
+                section: div.querySelector('.player-section').value.trim()
+            }));
+
+            const teamData = {
+                teamName,
+                instituteName,
+                captain,
+                viceCaptain,
+                branch,
+                year,
+                players
+            };
+
+            console.log('📤 Sending JSON:', teamData);
+
+            fetch(backendUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(teamData)
+            })
+            .then(async (response) => {
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(errorText || "Server Error");
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert("✅ Team Registered Successfully!");
+                console.log("✅ Response:", data);
+            })
+            .catch(err => {
+                alert("❌ Registration Failed: " + err.message);
+                console.error("Error:", err);
+            });
+        }
+
+        // Initialize with 13 players
+        for (let i = 0; i < 13; i++) addPlayer();
+    </script>
+</body>
+</html>

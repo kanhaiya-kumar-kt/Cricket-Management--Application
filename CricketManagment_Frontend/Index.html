@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cricket Management Portal</title>
+    <style>
+        /* 🌈 Global Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #007bff, #00c6ff);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #fff;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        /* 🧭 Navbar */
+        nav {
+            width: 100%;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 50px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav h2 {
+            font-size: 1.5em;
+            color: #fff;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 25px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #ffd700;
+        }
+
+        /* 📦 Container */
+        .container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .content-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 40px 60px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-size: 2.2em;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+        }
+
+        /* 🎯 Buttons */
+        .btn {
+            display: inline-block;
+            background: #ffffff;
+            color: #007bff;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 10px;
+            box-shadow: 0 5px 10px rgba(255, 255, 255, 0.2);
+        }
+
+        .btn:hover {
+            background: #007bff;
+            color: #fff;
+            transform: scale(1.05);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 🦶 Footer */
+        footer {
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+            text-align: center;
+            padding: 15px 0;
+            font-size: 0.9em;
+        }
+
+        /* 📱 Responsive */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                padding: 15px 20px;
+            }
+            nav ul {
+                flex-direction: column;
+                width: 100%;
+                margin-top: 10px;
+            }
+            nav ul li {
+                margin: 10px 0;
+            }
+            .content-box {
+                padding: 30px 20px;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+            .btn {
+                display: block;
+                width: 100%;
+                margin: 12px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 🧭 Navbar -->
+    <nav>
+        <h2>Cricket Portal</h2>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="./TeamReg.html">Register Team</a></li>
+            <li><a href="./teamsDetails.html">View Registered Teams</a></li>
+            <li><a href="./PlayerDtails.html">View Player Details</a></li>
+        </ul>
+    </nav>
+
+    <!-- 📦 Main Content -->
+    <div class="container">
+        <div class="content-box">
+            <h1>🏏 Cricket Management Portal</h1>
+            <a href="./TeamReg.html" class="btn">Register Team & Player Details</a>
+            <a href="./teamsDetails.html" class="btn">View Registered Teams</a>
+            <a href="./PlayerDtails.html" class="btn">View Player Details by Institute</a>
+        </div>
+    </div>
+
+    <!-- 🦶 Footer -->
+    <footer>
+        &copy; 2025 Cricket Management Portal. All rights reserved.
+    </footer>
+
+</body>
+</html>
